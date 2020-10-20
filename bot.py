@@ -18,23 +18,23 @@ def handle_data():
     return render_template('index.html', name="hello")
 
 
-def addToDatabase(username, email):
-
-    data = {"name": username,
-            "email": email}
-    db.child("users").child("User: " + username).set(data)
-
-    users = db.child("users").get()
-    print(users.val())
-
-
 @app.route('/addRegion', methods=['POST'])
 def addRegion():
     username = request.form['username']
     email = request.form['email']
-
-    addToDatabase(username ,email)
+    year = request.form['year']
+    addToDatabase(username, email, year)
     return render_template('index.html', name=username)
+
+
+def addToDatabase(username, email, year):
+    data = {"name": username,
+            "email": email,
+            "year": year}
+    db.child("users").child("User: " + username).set(data)
+
+    users = db.child("users").get()
+    print(users.val())
 
 # export FLASK_APP=bot.py
 # flask run
