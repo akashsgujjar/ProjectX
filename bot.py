@@ -36,5 +36,7 @@ def addToDatabase(username, email, year):
     users = db.child("users").get()
     print(users.val())
 
-# export FLASK_APP=bot.py
+# export FLASK_APP=bot.py flask run
+# export FLASK_ENV=development
 # flask run
+# FLASK_APP=bot.py FLASK_ENV=development flask run
