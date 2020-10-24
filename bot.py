@@ -15,7 +15,7 @@ db = firebase.database()
 
 @app.route('/')
 def handle_data():
-    return render_template('index.html', name="hello")
+    return render_template('index.html', name="Good Afternoon")
 
 
 @app.route('/login', methods=['POST', "GET"])
