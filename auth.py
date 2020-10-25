@@ -34,7 +34,7 @@ def login():
             userDataValues = userData.val()
             if username == userDataValues["name"]:
                 return render_template('profile.html', name="login success you are " + userDataValues["email"])
-        return render_template('login.html', name=None)
+        return render_template('login.html', name="INVALID ATTEMPT")
     if request.method == 'GET':
         return render_template('login.html', name=None)
     else:
@@ -66,4 +66,4 @@ def addToDatabase(username, email, year):
     users = db.child("users").get()
     return person
 
-# FLASK_APP=bot.py FLASK_ENV=development flask run
+# FLASK_APP=auth.py FLASK_ENV=development flask run
