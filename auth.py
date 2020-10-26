@@ -1,5 +1,6 @@
 from flask import Flask, flash, jsonify, render_template, request
 import webbrowser
+from werkzeug.utils import redirect
 import firebase as firebase
 
 app = Flask(__name__)
@@ -33,12 +34,10 @@ def login():
             userData = db.child("users").child(person).get()
             userDataValues = userData.val()
             if username == userDataValues["name"]:
-                return render_template('profile.html', name="login success you are " + userDataValues["email"])
+                return redirect('/profilePage')
         return render_template('login.html', name="INVALID ATTEMPT")
-    if request.method == 'GET':
-        return render_template('login.html', name=None)
     else:
-        return render_template('index.html')
+        return render_template('login.html', name=None)
 
 
 @app.route('/register', methods=['POST'])
@@ -47,14 +46,19 @@ def register():
     email = request.form['email']
     year = request.form['year']
     person = addToDatabase(username, email, year)
-    return profile(person)
+    return render_template("index.html")
 
 
 @app.route('/profilePage')
-def profile(person):
-    users = db.child("users").child(person).get()
-    temp = users.val()
-    return render_template('login.html', name=temp)
+def profile():
+    # users = db.child("users").child(person).get()
+    # temp = users.val()
+    return render_template('profile.html')
+
+
+@app.route('/matchPage', methods=["GET"])
+def match():
+    return render_template('match.html')
 
 
 def addToDatabase(username, email, year):
