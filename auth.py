@@ -33,7 +33,7 @@ def login():
         if person in listOfUsers:
             userData = db.child("users").child(person).get()
             userDataValues = userData.val()
-            if username == userDataValues["name"]:
+            if username == userDataValues["user"]:
                 return redirect('/profilePage')
         return render_template('login.html', name="INVALID ATTEMPT")
     else:
@@ -42,10 +42,13 @@ def login():
 
 @app.route('/register', methods=['POST'])
 def register():
+    firstName = request.form['firstName']
+    lastName = request.form['lastName']
     username = request.form['username']
     email = request.form['email']
+    age = request.form['age']
     year = request.form['year']
-    person = addToDatabase(username, email, year)
+    person = addToDatabase(firstName, lastName, username, email, age, year)
     return render_template("index.html")
 
 
@@ -61,9 +64,12 @@ def match():
     return render_template('match.html')
 
 
-def addToDatabase(username, email, year):
-    data = {"name": username,
+def addToDatabase(firstName, lastName, username, email, age, year):
+    data = {"user": username,
+            "first name": firstName,
+            "last name": lastName,
             "email": email,
+            "age": age,
             "year": year}
     person = "User: " + username
     db.child("users").child(person).set(data)
