@@ -12,6 +12,7 @@ config = {
 }
 firebase = firebase.Firebase(config)
 db = firebase.database()
+person = ""
 
 
 @app.route('/')
@@ -24,6 +25,7 @@ def login():
     if request.method == 'POST':
         # gets the username from the html form
         username = request.form['username']
+        global person
         person = "User: " + username
         users = db.child("users").get()
         # gets a dictionary of all the users in the database
@@ -54,9 +56,9 @@ def register():
 
 @app.route('/profilePage')
 def profile():
-    # users = db.child("users").child(person).get()
-    # temp = users.val()
-    return render_template('profile.html')
+    users = db.child("users").child(person).get()
+    temp = users.val()
+    return render_template('profile.html', name=temp)
 
 
 @app.route('/matchPage', methods=["GET"])
@@ -73,7 +75,6 @@ def addToDatabase(firstName, lastName, username, email, age, year):
             "year": year}
     person = "User: " + username
     db.child("users").child(person).set(data)
-    users = db.child("users").get()
     return person
 
 # FLASK_APP=auth.py FLASK_ENV=development flask run
