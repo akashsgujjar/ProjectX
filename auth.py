@@ -67,7 +67,17 @@ def profile():
 
 @app.route('/matchPage', methods=["GET"])
 def match():
-    return render_template('match.html')
+    users = db.child("users").get()
+    temp = users.val()
+    listOfUsers = temp.keys()
+    matches = []
+    for user in listOfUsers:
+        userData = db.child("users").child(user).get()
+        userDataValues = userData.val()
+        if "Freshman" == userDataValues["year"]:
+            matches.append(user)
+
+    return render_template('match.html', matches=matches)
 
 
 def addToDatabase(firstName, lastName, username, email, age, year):
