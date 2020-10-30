@@ -58,7 +58,11 @@ def register():
 def profile():
     users = db.child("users").child(person).get()
     temp = users.val()
-    return render_template('profile.html', name=temp)
+    print(temp)
+    name = temp['first name']
+    lastName = temp['last name']
+    year = temp['year']
+    return render_template('profile.html', name=name, last=lastName, year=year)
 
 
 @app.route('/matchPage', methods=["GET"])
