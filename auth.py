@@ -77,11 +77,12 @@ def match():
     listOfUsers = temp.keys()
     matches = []
     for user in listOfUsers:
-        userData = db.child("users").child(user).get()
-        userDataValues = userData.val()
-        if "Freshman" == userDataValues["year"]:
+        otherUserData = db.child("users").child(user).get()
+        otherUserDataVal = otherUserData.val()
+        myData = db.child("users").child(person).get()
+        myDataVals = myData.val()
+        if myDataVals["year"] == otherUserDataVal["year"]:
             matches.append(user)
-
     return render_template('match.html', matches=matches)
 
 
