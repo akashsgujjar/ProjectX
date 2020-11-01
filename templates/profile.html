@@ -35,21 +35,37 @@
         </div>
       </nav>
 
-  <button class="open-button" onclick="openForm()">Open Form</button>
+  <div class="user-info">
 
-  <div class="form-popup" id="myForm">
-    <form action="/action_page.php" class="form-container">
-      <h1>Login</h1>
+    <h1>Welcome, {{name}} {{last}}</h1>
+    <p>{{year}}</p>
 
-      <label for="email"><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" required>
+    <button class="open-button" onclick="openForm()">Open Form</button>
 
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
+    <div class="form-popup" id="myForm">
+      <form action="{{ url_for('profile') }}" class="form-container">
+        <h1>Login</h1>
 
-      <button type="submit" class="btn">Login</button>
-      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-    </form>
+        <label for="firstName"><b>First Name</b></label>
+        <input type="text" placeholder="{{name}}" name="firstName" required>
+        <br>
+        <label for="lastName"><b>Last Name</b></label>
+        <input type="text" placeholder="{{last}}" name="lastName" required>
+        <br>
+<!--         <select id="year" name="year">-->
+<!--          <option value="{{year}}">{{year}}</option>-->
+<!--          <option value="Freshman">Freshman</option>-->
+<!--          <option value="Sophmore">Sophmore</option>-->
+<!--          <option value="Junior" >Junior</option>-->
+<!--          <option value="Senior">Senior</option>-->
+<!--         </select>-->
+<!--        <br>-->
+
+        <button type="submit" class="btn">Submit Changes</button><br>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+      </form>
+    </div>
+
   </div>
 
   <script>

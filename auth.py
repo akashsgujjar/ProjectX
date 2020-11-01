@@ -54,15 +54,20 @@ def register():
     return render_template("index.html")
 
 
-@app.route('/profilePage')
+@app.route('/profilePage', methods=['GET', 'POST'])
 def profile():
     users = db.child("users").child(person).get()
     temp = users.val()
-    print(temp)
-    name = temp['first name']
-    lastName = temp['last name']
-    year = temp['year']
-    return render_template('profile.html', name=name, last=lastName, year=year)
+    if request.method == 'POST':
+        first = request.form['firstName']
+        last = request.form['lastName']
+        personTemp = addToDatabase(first, last, temp['user'], temp['age'], temp['year'])
+        return render_template('profile.html', name=first, last=last, year=temp['year'])
+    else:
+        name = temp['first name']
+        lastName = temp['last name']
+        year = temp['year']
+        return render_template('profile.html', name=name, last=lastName, year=year)
 
 
 @app.route('/matchPage', methods=["GET"])
@@ -81,6 +86,7 @@ def match():
 
 
 def addToDatabase(firstName, lastName, username, email, age, year):
+    print(firstName + " " + lastName)
     data = {"user": username,
             "first name": firstName,
             "last name": lastName,
