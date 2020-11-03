@@ -61,7 +61,7 @@ def profile():
     if request.method == 'POST':
         first = request.form['firstName']
         last = request.form['lastName']
-        personTemp = addToDatabase(first, last, temp['user'], temp['age'], temp['year'])
+        personTemp = addToDatabase(first, last, temp['user'], temp['email'], temp['age'], temp['year'])
         return render_template('profile.html', name=first, last=last, year=temp['year'])
     else:
         name = temp['first name']
@@ -87,7 +87,6 @@ def match():
 
 
 def addToDatabase(firstName, lastName, username, email, age, year):
-    print(firstName + " " + lastName)
     data = {"user": username,
             "first name": firstName,
             "last name": lastName,
